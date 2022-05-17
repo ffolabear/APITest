@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+
+    </style>
+    <title>APITest Main</title>
+</head>
+<body>
+
+    <div class="container">
+        <div class="py-5 text-center">
+        <button type="button" class="btn btn-primary" onclick="location.href='main'">
+            main 으로 이동하기
+        </button>
+        </div>
+        <ul>
+            <li><a href="/hello">영화 검색 API Test</a></li>
+        </ul>
+    </div>
+
+
+</body>
+</html>

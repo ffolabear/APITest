@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RestController
+@RequestMapping("main")
+@Controller
 public class BasicController {
 
-    @GetMapping("hello")
-    public String hello(Model model) {
+    @GetMapping
+    public String main() {
         log.info("main controller called!");
-        model.addAttribute("data", "hello!");
-        return "hello";
+        return "main";
     }
+
 }
