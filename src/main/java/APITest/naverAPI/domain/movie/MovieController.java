@@ -1,9 +1,10 @@
 package APITest.naverAPI.domain.movie;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.json.JSONParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,26 +28,23 @@ public class MovieController {
         return "movie/movieMain";
     }
 
+    @ResponseBody
     @PostMapping("/movieSearch")
-    public void search(@RequestParam String searchWord) {
+    public void search(@RequestParam String searchWord) throws ParseException {
 
 
         log.info("movie search method call!");
         log.info("searchWord : " + searchWord);
 
-        String clientId = "발급받은 클라이언트 아이디"; //애플리케이션 클라이언트 아이디값"
-        String clientSecret = "발급받은 클라이언트 시크릿값"; //애플리케이션 클라이언트 시크릿값"
+        String clientId = "kSzN57Il4cGSY7RTWd27"; //애플리케이션 클라이언트 아이디값"
+        String clientSecret = "aZD1YIQlDu"; //애플리케이션 클라이언트 시크릿값"
         String text = null;
-//        try {
-//            Scanner scan = new Scanner(System.in);
-//            String str;
-//            System.out.print("검색어를 입력하세요 : ");
-//            str = scan.nextLine();
-//            text = URLEncoder.encode(str, "UTF-8");
-//            scan.close();
-//        } catch (UnsupportedEncodingException e) {
-//            throw new RuntimeException("검색어 인코딩 실패", e);
-//        }
+
+        try {
+            text = URLEncoder.encode(searchWord, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("검색어 인코딩 실패", e);
+        }
 
         String apiURL = "https://openapi.naver.com/v1/search/movie.json?query=" + text + "&display=10&start=1";    // json 결과
         //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
@@ -56,19 +54,21 @@ public class MovieController {
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         String responseBody = get(apiURL, requestHeaders);
 
-//        JSONParser jsonParser = new JSONParser();
-//        JSONObject jsonObject = (JSONObject) jsonParser.parse(responseBody);
-//        JSONArray infoArray = (JSONArray) jsonObject.get("items");
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObject = (JSONObject) jsonParser.parse(responseBody);
+        JSONArray infoArray = (JSONArray) jsonObject.get("items");
 
-//        for (int i = 0; i < infoArray.size(); i++) {
-//            System.out.println("=item_" + i + "============================");
-//            JSONObject itemObject = (JSONObject) infoArray.get(i);
-//            System.out.println("title:\t" + itemObject.get("title"));
-//            System.out.println("subtitle:\t" + itemObject.get("subtitle"));
-//            System.out.println("director:\t" + itemObject.get("director"));
-//            System.out.println("actor:\t" + itemObject.get("actor"));
-//            System.out.println("userRating:\t" + itemObject.get("userRating") + "\n");
-//        }
+        for (int i = 0; i < infoArray.size(); i++) {
+            System.out.println("=item_" + i + "============================");
+            JSONObject itemObject = (JSONObject) infoArray.get(i);
+            System.out.println("title:\t" + itemObject.get("title"));
+            System.out.println("subtitle:\t" + itemObject.get("subtitle"));
+            System.out.println("director:\t" + itemObject.get("director"));
+            System.out.println("actor:\t" + itemObject.get("actor"));
+            System.out.println("userRating:\t" + itemObject.get("userRating") + "\n");
+        }
+
+
     }
 
 
