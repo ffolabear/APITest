@@ -18,8 +18,8 @@
     <div class="py-5 text-center">
         <h4 class="mb-3">원하는 영화제목을 검색하세요.</h4>
         <!--            <form action="/movieSearch" th:action method="post">-->
-        <form>
-            <input type="text" name="movieName" required>
+        <form th:action="@{movieApi/movieSearch}" method="post">
+            <input type="text" name="searchWord" required>
             <hr class="my-4">
             <div class="row">
                 <div class="col">
