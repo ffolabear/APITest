@@ -30,7 +30,7 @@ public class MovieController {
 
     @ResponseBody
     @PostMapping("/movieSearch")
-    public void search(@RequestParam String searchWord) throws ParseException {
+    public String search(String searchWord) throws ParseException {
 
 
         log.info("movie search method call!");
@@ -58,17 +58,17 @@ public class MovieController {
         JSONObject jsonObject = (JSONObject) jsonParser.parse(responseBody);
         JSONArray infoArray = (JSONArray) jsonObject.get("items");
 
-        for (int i = 0; i < infoArray.size(); i++) {
-            System.out.println("=item_" + i + "============================");
-            JSONObject itemObject = (JSONObject) infoArray.get(i);
-            System.out.println("title:\t" + itemObject.get("title"));
-            System.out.println("subtitle:\t" + itemObject.get("subtitle"));
-            System.out.println("director:\t" + itemObject.get("director"));
-            System.out.println("actor:\t" + itemObject.get("actor"));
-            System.out.println("userRating:\t" + itemObject.get("userRating") + "\n");
-        }
+//        for (int i = 0; i < infoArray.size(); i++) {
+//            System.out.println("=item_" + i + "============================");
+//            JSONObject itemObject = (JSONObject) infoArray.get(i);
+//            System.out.println("title:\t" + itemObject.get("title"));
+//            System.out.println("subtitle:\t" + itemObject.get("subtitle"));
+//            System.out.println("director:\t" + itemObject.get("director"));
+//            System.out.println("actor:\t" + itemObject.get("actor"));
+//            System.out.println("userRating:\t" + itemObject.get("userRating") + "\n");
+//        }
 
-
+        return infoArray.toString();
     }
 
 
