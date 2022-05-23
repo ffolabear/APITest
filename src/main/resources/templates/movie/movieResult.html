@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../../static/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+
+    </style>
+
+    <title>Movie API Result Page</title>
+</head>
+<body>
+
+<div class="container">
+    <div class="py-5 text-center">
+        <h4 class="mb-3" th:text="|'${searchWord}' 에 대한 검색결과|">에 대한 검색결과</h4>
+
+    </div>
+</div>
+
+</body>
+</html>

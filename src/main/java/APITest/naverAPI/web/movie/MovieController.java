@@ -1,5 +1,6 @@
-package APITest.naverAPI.domain.movie;
+package APITest.naverAPI.web.movie;
 
+import APITest.naverAPI.domain.movie.Movie;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,8 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @RequestMapping("/main/movieApi")
@@ -30,18 +30,17 @@ public class MovieController {
         return "movie/movieMain";
     }
 
-//    @ResponseBody
+    //    @ResponseBody
     @PostMapping("/movieSearch")
-    public String search(String searchWord, Model model, RedirectAttributes redirectAttributes) throws ParseException {
+    public String search(String searchWord, Model model) throws ParseException {
 
 
         log.info("movie search method call!");
-        log.info("searchWord : " + searchWord);
 
         //페이지 다시 보여줄때 사용자가 입력한 값 다시 보여주기
-        redirectAttributes.addAttribute("searchWord", searchWord);
-        redirectAttributes.addAttribute("status", true);
-        log.info("검색어 : " + searchWord);
+//        redirectAttributes.addFlashAttribute("searchWord", searchWord);
+//        redirectAttributes.addFlashAttribute("status", true);
+
 
         String clientId = "kSzN57Il4cGSY7RTWd27"; //애플리케이션 클라이언트 아이디값"
         String clientSecret = "aZD1YIQlDu"; //애플리케이션 클라이언트 시크릿값"
@@ -65,7 +64,7 @@ public class MovieController {
         JSONObject jsonObject = (JSONObject) jsonParser.parse(responseBody);
         JSONArray infoArray = (JSONArray) jsonObject.get("items");
 
-//        for (int i = 0; i < infoArray.size(); i++) {
+        for (int i = 0; i < infoArray.size(); i++) {
 //            System.out.println("=item_" + i + "============================");
 //            JSONObject itemObject = (JSONObject) infoArray.get(i);
 //            System.out.println("title:\t" + itemObject.get("title"));
@@ -73,13 +72,34 @@ public class MovieController {
 //            System.out.println("director:\t" + itemObject.get("director"));
 //            System.out.println("actor:\t" + itemObject.get("actor"));
 //            System.out.println("userRating:\t" + itemObject.get("userRating") + "\n");
-//        }
+            System.out.println(infoArray.get(i).toString());
+            System.out.println();
+        }
 
-        System.out.println(infoArray);
+        System.out.println(jsonObject);
+        List<Movie> searchResult = new ArrayList<>();
 
-//        return infoArray.toString();
-        return "redirect:/movie/movieMain";
+        for (int i = 0; i < infoArray.size(); i++) {
+            Movie movie = new Movie();
+
+            JSONObject tempJson = (JSONObject) infoArray.get(i);
+
+            String actor = tempJson.get("actor").toString();
+            String image = tempJson.get("image").toString().replace("\\", "");
+            String director = tempJson.get("director").toString();
+            String title = tempJson.get("title").toString();
+
+        }
+
+
+
+
+        model.addAttribute("searchWord", searchWord);
+        model.addAttribute("result", infoArray.toString());
+
+        return "movie/movieResult";
     }
+
 
 
     private static String get(String apiUrl, Map<String, String> requestHeaders) {
