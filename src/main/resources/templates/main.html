@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/css/bootstrap.min.css}"
@@ -16,7 +17,7 @@
 
 <div class="container">
     <div class="py-5 text-center">
-        <p><button class="btn btn-success btn-lg" onclick="location.href='movieApi'">Naver 영화검색 API</button></p>
+        <p><button class="btn btn-success btn-lg" th:onclick="|location.href='@{/main/movieApi}'|">Naver 영화검색 API</button></p>
         <p><button class="btn btn-success btn-lg">Naver 로그인</button></p>
         <p><button class="btn btn-success btn-lg">추가중</button></p>
         <p><button class="btn btn-success btn-lg">추가중</button></p>
