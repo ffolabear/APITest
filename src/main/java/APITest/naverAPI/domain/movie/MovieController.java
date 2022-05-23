@@ -6,7 +6,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -17,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@RequestMapping("movieApi")
+@RequestMapping("/main/movieApi")
 @Controller
 //@RestController
 public class MovieController {
@@ -28,13 +30,18 @@ public class MovieController {
         return "movie/movieMain";
     }
 
-    @ResponseBody
+//    @ResponseBody
     @PostMapping("/movieSearch")
-    public String search(String searchWord) throws ParseException {
+    public String search(String searchWord, Model model, RedirectAttributes redirectAttributes) throws ParseException {
 
 
         log.info("movie search method call!");
         log.info("searchWord : " + searchWord);
+
+        //페이지 다시 보여줄때 사용자가 입력한 값 다시 보여주기
+        redirectAttributes.addAttribute("searchWord", searchWord);
+        redirectAttributes.addAttribute("status", true);
+        log.info("검색어 : " + searchWord);
 
         String clientId = "kSzN57Il4cGSY7RTWd27"; //애플리케이션 클라이언트 아이디값"
         String clientSecret = "aZD1YIQlDu"; //애플리케이션 클라이언트 시크릿값"
@@ -68,7 +75,10 @@ public class MovieController {
 //            System.out.println("userRating:\t" + itemObject.get("userRating") + "\n");
 //        }
 
-        return infoArray.toString();
+        System.out.println(infoArray);
+
+//        return infoArray.toString();
+        return "redirect:/movie/movieMain";
     }
 
 

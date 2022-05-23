@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/css/bootstrap.min.css}"
@@ -19,7 +20,7 @@
         <h4 class="mb-3">원하는 영화제목을 검색하세요.</h4>
         <!--            <form action="/movieSearch" th:action method="post">-->
         <form th:action="@{movieApi/movieSearch}" method="post">
-            <input type="text" name="searchWord" required>
+            <input type="text" name="searchWord" required th:if="${param.status}" th:text="${param.searchWord}">
             <hr class="my-4">
             <div class="row">
                 <div class="col">
