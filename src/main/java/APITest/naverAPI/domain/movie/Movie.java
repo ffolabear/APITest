@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -12,11 +14,10 @@ import lombok.Setter;
 public class Movie {
 
     private Long id;
-    private String actor;
+    private List<String> actor;
     private String image;
-    private String director;
+    private List<String> director;
     private String subtitle;
-    private String link;
     private String title;
     private Integer pubDate;
     private Double userRating;
