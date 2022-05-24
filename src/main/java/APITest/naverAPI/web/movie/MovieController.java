@@ -1,6 +1,7 @@
 package APITest.naverAPI.web.movie;
 
 import APITest.naverAPI.domain.movie.Movie;
+import APITest.naverAPI.domain.movie.ParsingJson;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -34,13 +35,9 @@ public class MovieController {
     @PostMapping("/movieSearch")
     public String search(String searchWord, Model model) throws ParseException {
 
-
         log.info("movie search method call!");
 
-        //페이지 다시 보여줄때 사용자가 입력한 값 다시 보여주기
-//        redirectAttributes.addFlashAttribute("searchWord", searchWord);
-//        redirectAttributes.addFlashAttribute("status", true);
-
+        //=====================================Naver API Logic===================================================
 
         String clientId = "kSzN57Il4cGSY7RTWd27"; //애플리케이션 클라이언트 아이디값"
         String clientSecret = "aZD1YIQlDu"; //애플리케이션 클라이언트 시크릿값"
@@ -64,42 +61,43 @@ public class MovieController {
         JSONObject jsonObject = (JSONObject) jsonParser.parse(responseBody);
         JSONArray infoArray = (JSONArray) jsonObject.get("items");
 
-        for (int i = 0; i < infoArray.size(); i++) {
-//            System.out.println("=item_" + i + "============================");
-//            JSONObject itemObject = (JSONObject) infoArray.get(i);
-//            System.out.println("title:\t" + itemObject.get("title"));
-//            System.out.println("subtitle:\t" + itemObject.get("subtitle"));
-//            System.out.println("director:\t" + itemObject.get("director"));
-//            System.out.println("actor:\t" + itemObject.get("actor"));
-//            System.out.println("userRating:\t" + itemObject.get("userRating") + "\n");
-            System.out.println(infoArray.get(i).toString());
-            System.out.println();
-        }
+        //=======================================================================================================
 
-        System.out.println(jsonObject);
         List<Movie> searchResult = new ArrayList<>();
+        ParsingJson parsingJson = new ParsingJson();
+        Long id = 1L;
 
         for (int i = 0; i < infoArray.size(); i++) {
-            Movie movie = new Movie();
 
+            Movie movie = new Movie();
             JSONObject tempJson = (JSONObject) infoArray.get(i);
 
-            String actor = tempJson.get("actor").toString();
-            String image = tempJson.get("image").toString().replace("\\", "");
-            String director = tempJson.get("director").toString();
-            String title = tempJson.get("title").toString();
+            List<String> actorList = parsingJson.parsingActor(tempJson.get("actor").toString());
+            String image = parsingJson.parsingImageUrl(tempJson.get("image").toString());
+            List<String> directorList = parsingJson.parsingDirector(tempJson.get("director").toString());
+            String title = parsingJson.parsingTitle(tempJson.get("title").toString());
+            String subtitle = parsingJson.parsingSubTitle(tempJson.get("subtitle").toString());
+            Integer pubDate = parsingJson.parsingPubDate(tempJson.get("pubDate").toString());
+            Double userRating = parsingJson.parsingUserRating(tempJson.get("userRating").toString());
 
+            movie.setId(id++);
+            movie.setTitle(title);
+            movie.setSubtitle(subtitle);
+            movie.setActor(actorList);
+            movie.setDirector(directorList);
+            movie.setImage(image);
+            movie.setUserRating(userRating);
+            movie.setPubDate(pubDate);
+
+            searchResult.add(movie);
         }
-
-
 
 
         model.addAttribute("searchWord", searchWord);
-        model.addAttribute("result", infoArray.toString());
+        model.addAttribute("searchResult", searchResult);
 
         return "movie/movieResult";
     }
-
 
 
     private static String get(String apiUrl, Map<String, String> requestHeaders) {
