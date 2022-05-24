@@ -3,21 +3,24 @@ package APITest.naverAPI.domain.movie;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class ParsingJson {
 
-    public List<String> parsingActor(String actorList) {
+    public String parsingActor(String actorList) {
 
-//        actorList = actorList.replace("|", " ");
         String[] temp = actorList.split("\\|");
         List<String> result = new ArrayList<>();
+        String resultToString;
 
         if (temp.length == 0) {
-            result.add("-");
+            resultToString = "-";
         } else {
             result = new ArrayList<>(Arrays.asList(temp));
+            resultToString = String.join(", ", result);
         }
-        return result;
+
+        return resultToString;
     }
 
     public String parsingImageUrl(String imageUrl) {
@@ -25,10 +28,11 @@ public class ParsingJson {
         return imageUrl;
     }
 
-    public List<String> parsingDirector(String directorList) {
-//        directorList = directorList.replace("|", " ");
-        String[] temp = directorList.split("\\|");
-        return new ArrayList<>(Arrays.asList(temp));
+    public String parsingDirector(String directorList) {
+        String[] result = directorList.split("\\|");
+        String resultToString = String.join(", ", result);
+
+        return resultToString;
     }
 
     public String parsingTitle(String title) {
