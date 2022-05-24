@@ -72,9 +72,9 @@ public class MovieController {
             Movie movie = new Movie();
             JSONObject tempJson = (JSONObject) infoArray.get(i);
 
-            List<String> actorList = parsingJson.parsingActor(tempJson.get("actor").toString());
+            String actorList = parsingJson.parsingActor(tempJson.get("actor").toString());
             String image = parsingJson.parsingImageUrl(tempJson.get("image").toString());
-            List<String> directorList = parsingJson.parsingDirector(tempJson.get("director").toString());
+            String directorList = parsingJson.parsingDirector(tempJson.get("director").toString());
             String title = parsingJson.parsingTitle(tempJson.get("title").toString());
             String subtitle = parsingJson.parsingSubTitle(tempJson.get("subtitle").toString());
             Integer pubDate = parsingJson.parsingPubDate(tempJson.get("pubDate").toString());

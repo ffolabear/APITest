@@ -7,7 +7,11 @@
           href="../../static/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .container {
-            max-width: 560px;
+            max-width: 1000px;
+        }
+
+        .table {
+            vertical-align : middle;
         }
 
     </style>
@@ -19,6 +23,33 @@
 <div class="container">
     <div class="py-5 text-center">
         <h4 class="mb-3" th:text="|'${searchWord}' 에 대한 검색결과|">에 대한 검색결과</h4>
+        <hr class="my-4">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>이미지</th>
+                <th>영화제목</th>
+                <th>부제</th>
+                <th>출연 배우</th>
+                <th>감독</th>
+                <th>개봉날짜</th>
+                <th>평점</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="movie : ${searchResult}">
+                <td><img th:src="${movie.image}" alt=""></td>
+                <td th:text="${movie.title}">movie name</td>
+                <td th:text="${movie.subtitle}">movie subtitle</td>
+                <td th:text="${movie.actor}">movie actor</td>
+                <td th:text="${movie.director}">movie director</td>
+                <td th:text="${movie.pubDate}">movie pubdate</td>
+                <td th:text="${movie.userRating}">movie userRating</td>
+
+            </tr>
+            </tbody>
+        </table>
+
 
     </div>
 </div>

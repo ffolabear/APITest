@@ -14,9 +14,9 @@ import java.util.List;
 public class Movie {
 
     private Long id;
-    private List<String> actor;
+    private String actor;
     private String image;
-    private List<String> director;
+    private String director;
     private String subtitle;
     private String title;
     private Integer pubDate;
